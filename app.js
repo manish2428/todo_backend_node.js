@@ -1,5 +1,7 @@
 const express=require('express')
 require('dotenv').config()
+const db=require('./db/db_connection')
+db.db_connection()
 const cors=require("cors")
 
 const log_signup=require("./routing/login_signup")
