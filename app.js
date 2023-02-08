@@ -12,7 +12,7 @@ app.use('/todo',list)
 app.use('/validate',log_signup)
 
 app.get('/home',(req,res)=>{
-res.send("hello world");
+res.send("This is homepage")
 })
 
 app.listen(3000,process.env.IP,function(req,res){
