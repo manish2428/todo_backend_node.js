@@ -9,6 +9,7 @@ const Signup=require("./Model/signup_models")
 db_connection()
 const cors=require("cors")
 const bcrypt=require('bcrypt')
+var jwt = require('jsonwebtoken');
 
 const log_signup=require("./routing/login_signup")
 const list=require("./routing/list")
@@ -27,18 +28,26 @@ res.send("This is homepage")
 })
 
 app.post('/login',async(req,res)=>{
+          let jwtSecretKey = process.env.JWT_SECRET_KEY;
+          let data = {
+               time: Date(),
+               name: req.body.email
+          }
+          const token = jwt.sign(data, jwtSecretKey, {expiresIn: '1m'})
+          try{
           const password=await Signup.find({email:req.body.email})
           bcrypt.compare(req.body.password,password[0].password, (err, data) => {
           if(err){
               return res.status(400).json({"err":"error_occured"})
           }
-          if (data) {
-              return res.status(200).json({ "msg": "Login success" })
-          }else {
-              return res.status(401).json({ "msg": "Invalid credencial" })
+          else{
+              return res.status(200).json({ "msg": "Login success","token":token })
           }
 
           })
+     }catch{
+          return res.status(401).json({"msg":"Invalid credencial"})
+     }
 })
 
 app.post('/signup',async(req,res)=>{

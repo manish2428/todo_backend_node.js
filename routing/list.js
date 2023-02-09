@@ -1,11 +1,11 @@
 const express=require("express")
 const router=express.Router()
-
+const auth=require('../Auth/authenticate')
 const List=require('../Model/database_model')
 // const Signup=require('../Model/signup_models')
 
 
-router.get("/list",async(req,res)=>{
+router.get("/list",auth,async(req,res)=>{
     try{
         var list=await List.find({})
     }catch{
@@ -16,7 +16,7 @@ router.get("/list",async(req,res)=>{
     }
 })
 
-router.post("/list",async(req,res)=>{
+router.post("/list",auth,async(req,res)=>{
     try{
         const list1=await List.find({title:req.body.title})
         
@@ -41,7 +41,7 @@ router.post("/list",async(req,res)=>{
 
 })
 
-router.put('/list/:id',async(req,res)=>{
+router.put('/list/:id',auth,async(req,res)=>{
     try{
         updated_data={$set:{"title":req.body.title,"description":req.body.description}}
         var list=await List.updateOne({_id:req.params.id},{$set:{"title":req.body.title,"description":req.body.description}})
@@ -54,7 +54,7 @@ router.put('/list/:id',async(req,res)=>{
      
 })
 
-router.delete('/list/:id',async(req,res)=>{
+router.delete('/list/:id',auth,async(req,res)=>{
     try{
         updated_data={$set:{"title":req.body.title,"description":req.body.description}}
         var list=await List.deleteOne({_id:req.params.id})
