@@ -1,7 +1,8 @@
 var mongoose=require('mongoose')
-// var model=mongoose.Schema;
 
-const todoschema=new Schema({
+
+
+const todoschema=new mongoose.Schema({
     title:String,
     description:String
 })

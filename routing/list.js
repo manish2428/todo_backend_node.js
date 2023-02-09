@@ -1,6 +1,9 @@
 const express=require("express")
 const router=express.Router()
 
+const List=require('../Model/database_model')
+
+
 router.get("/list",(req,res)=>{
     res.json({"key":"list_get","status":200})
 })
